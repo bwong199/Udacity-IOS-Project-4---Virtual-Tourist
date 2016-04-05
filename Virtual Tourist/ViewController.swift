@@ -12,43 +12,50 @@ import CoreLocation
 
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
+    var latitude : Double = 0
+    var longitude : Double = 0
+    
     @IBOutlet var map: MKMapView!
     
     var locationManager = CLLocationManager()
     
+    var selectedPin: CLLocationCoordinate2D? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-   
-        locationManager.requestWhenInUseAuthorization()
+        self.map.delegate = self
         
-        locationManager.startUpdatingLocation()
+//        locationManager.delegate = self
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        
+//        locationManager.requestWhenInUseAuthorization()
+//        
+//        locationManager.startUpdatingLocation()
+//        
+//        let latitude:CLLocationDegrees = 51.03
+//        
+//        let longitude:CLLocationDegrees = -114.14
+//        
+//        let latDelta:CLLocationDegrees = 0.01
+//        
+//        let lonDelta:CLLocationDegrees = 0.01
+//        
+//        let span:MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
+//        
+//        let location:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+//        
+//        let region:MKCoordinateRegion = MKCoordinateRegionMake(location, span)
+//        
+//        map.setRegion(region, animated: false)
         
-        var latitude:CLLocationDegrees = 51.03
-        
-        var longitude:CLLocationDegrees = -114.14
-        
-        var latDelta:CLLocationDegrees = 0.01
-        
-        var lonDelta:CLLocationDegrees = 0.01
-        
-        var span:MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
-        
-        var location:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
-        
-        var region:MKCoordinateRegion = MKCoordinateRegionMake(location, span)
-        
-        map.setRegion(region, animated: false)
         
         
-        
-        var uilpgr = UILongPressGestureRecognizer(target: self, action: "action:")
+        let uilpgr = UILongPressGestureRecognizer(target: self, action: "action:")
         
         // 2 seconds
         
-        uilpgr.minimumPressDuration = 0.5
+        uilpgr.minimumPressDuration = 0.8
         
         map.addGestureRecognizer(uilpgr)
     }
@@ -57,85 +64,81 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     func action(gestureRecognizer: UIGestureRecognizer){
         
         
-        var touchPoint = gestureRecognizer.locationInView(self.map)
+        let touchPoint = gestureRecognizer.locationInView(self.map)
         
-        var newCoordinate: CLLocationCoordinate2D = map.convertPoint(touchPoint, toCoordinateFromView: self.map)
+        let newCoordinate: CLLocationCoordinate2D = map.convertPoint(touchPoint, toCoordinateFromView: self.map)
         
-        var annotation = MKPointAnnotation()
+        let annotation = MKPointAnnotation()
         
         annotation.coordinate = newCoordinate
         
-        annotation.title = "New Location"
+        annotation.title = "\(newCoordinate.latitude)  \(newCoordinate.longitude)"
         
-        annotation.subtitle = "I tapped this"
+        annotation.subtitle = "\(newCoordinate.latitude)  \(newCoordinate.longitude)"
         
-    
-        
+        annotation.coordinate = newCoordinate
         
         map.addAnnotation(annotation)
         
-        print(touchPoint)
+        //        self.performSegueWithIdentifier("toLocationDetail", sender: annotation)
+        
+        //
+        //        print(touchPoint)
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locations)
+        //        print(locations)
         
-        var userLocation: CLLocation = locations[0]
+        let userLocation: CLLocation = locations[0]
         
-        var latitude = userLocation.coordinate.latitude
+        let latitude = userLocation.coordinate.latitude
         
-        var longitude = userLocation.coordinate.longitude
+        let longitude = userLocation.coordinate.longitude
         
-        var latDelta:CLLocationDegrees = 0.01
+        let latDelta:CLLocationDegrees = 0.01
         
-        var lonDelta:CLLocationDegrees = 0.01
+        let lonDelta:CLLocationDegrees = 0.01
         
-        var span:MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
+        let span:MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
         
-        var location:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+        let location:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
         
-        var region:MKCoordinateRegion = MKCoordinateRegionMake(location, span)
+        let region:MKCoordinateRegion = MKCoordinateRegionMake(location, span)
         
         self.map.setRegion(region, animated: false)
     }
     
-    
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {
-            return nil
-        }
+    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
         
-        let reuseId = "pin"
-        
-        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId)
-        if pinView == nil {
-            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            pinView?.canShowCallout = true
-            
-            var rightButton: AnyObject! = UIButton.buttonWithType(UIButtonType.DetailDisclosure)
-            rightButton.titleForState(UIControlState.Normal)
-            
-            pinView!.rightCalloutAccessoryView = rightButton as! UIView
-        }
-        else {
-            pinView?.annotation = annotation
-        }
-        
-        return pinView
+        let pin = view.annotation
+        performSegueWithIdentifier("toLocationDetail", sender: pin)
     }
     
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if control == view.rightCalloutAccessoryView {
-            performSegueWithIdentifier("toLocationDetail", sender: view)
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        let coordinates = String((view.annotation!.coordinate))
+        
+//        print(coordinates)
+        
+        self.latitude = view.annotation!.coordinate.latitude
+        self.longitude = view.annotation!.coordinate.longitude
+        
+        //                if let requestUrl = NSURL(string: link) {
+        //                    UIApplication.sharedApplication().openURL(requestUrl)
+        //                }
+        
+        NSOperationQueue.mainQueue().addOperationWithBlock {
+            self.performSegueWithIdentifier("toLocationDetail", sender: self)
         }
     }
+    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "toLocationDetail" )
         {
-            var vc = segue.destinationViewController as! DetailViewController
+            let detailController = segue.destinationViewController as! DetailViewController
             
-//            ikinciEkran.tekelName = (sender as! MKAnnotationView).annotation!.title
+            detailController.latitude = self.latitude
+            detailController.longitude = self.longitude
             
         }
         

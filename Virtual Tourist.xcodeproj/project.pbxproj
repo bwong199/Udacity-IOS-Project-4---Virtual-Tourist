@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C53BD9791CB4518400899D3E /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53BD9781CB4518400899D3E /* MyCollectionViewCell.swift */; };
 		C576E8A71CA822F600633328 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C576E8A61CA822F600633328 /* AppDelegate.swift */; };
 		C576E8A91CA822F600633328 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C576E8A81CA822F600633328 /* ViewController.swift */; };
 		C576E8AC1CA822F600633328 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C576E8AA1CA822F600633328 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C53BD9781CB4518400899D3E /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
 		C576E8A31CA822F600633328 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C576E8A61CA822F600633328 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C576E8A81CA822F600633328 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				C576E8A61CA822F600633328 /* AppDelegate.swift */,
 				C576E8A81CA822F600633328 /* ViewController.swift */,
 				C576E8BF1CA832F600633328 /* DetailViewController.swift */,
+				C53BD9781CB4518400899D3E /* MyCollectionViewCell.swift */,
 				C576E8AA1CA822F600633328 /* Main.storyboard */,
 				C576E8B01CA822F600633328 /* Assets.xcassets */,
 				C576E8B21CA822F600633328 /* LaunchScreen.storyboard */,
@@ -151,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C576E8A91CA822F600633328 /* ViewController.swift in Sources */,
+				C53BD9791CB4518400899D3E /* MyCollectionViewCell.swift in Sources */,
 				C576E8AF1CA822F600633328 /* Virtual_Tourist.xcdatamodeld in Sources */,
 				C576E8A71CA822F600633328 /* AppDelegate.swift in Sources */,
 				C576E8C01CA832F600633328 /* DetailViewController.swift in Sources */,
